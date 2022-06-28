@@ -6,6 +6,7 @@ import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/error-alert";
 import useSWR from 'swr'
 import {Event} from "../../interfaces/event";
+import Head from "next/head";
 
 const FilteredEventsPage = () => {
     const [loadedEvents, setLoadedEvents] = useState<Event[]>()
@@ -52,6 +53,10 @@ const FilteredEventsPage = () => {
     ) {
         return (
             <Fragment>
+                <Head>
+                    <title>Filtered Events</title>
+                    <meta name="description" content={`All events for ${numMonth}/${numYear}.`}/>
+                </Head>
                 <ErrorAlert>
                     <p>Invalid filter. Please adjust your values!</p>
                 </ErrorAlert>
