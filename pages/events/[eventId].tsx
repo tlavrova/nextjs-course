@@ -6,6 +6,7 @@ import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/error-alert";
 import {GetStaticPropsContext} from "next";
 import Head from "next/head";
+import Comments from "../../components/input/comments";
 
 const EventDetailPage = (props: {selectedEvent: any}) => {
     const event = props.selectedEvent
@@ -29,6 +30,7 @@ const EventDetailPage = (props: {selectedEvent: any}) => {
             <EventContent>
                 <p>{event.description}</p>
             </EventContent>
+            <Comments eventId={event.id}/>
         </Fragment>
     )
 }
