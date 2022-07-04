@@ -8,7 +8,7 @@ function NewComment(props: any) {
     const nameInputRef = useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
     const commentInputRef = useRef<HTMLTextAreaElement>() as React.MutableRefObject<HTMLTextAreaElement>;
 
-    function sendCommentHandler(event: React.FormEvent<HTMLInputElement>) {
+    function sendCommentHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current?.value;
@@ -36,7 +36,7 @@ function NewComment(props: any) {
     }
 
     return (
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={sendCommentHandler}>
             <div className={classes.row}>
                 <div className={classes.control}>
                     <label htmlFor='email'>Your email</label>
