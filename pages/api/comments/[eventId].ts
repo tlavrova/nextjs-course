@@ -1,10 +1,13 @@
 import {NextApiRequest, NextApiResponse} from "next";
+import {MongoClient} from "mongodb";
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
     const eventId = req.query.eventId
 
+    const client = await MongoClient.connect('mongodb+srv://tatiana:STe6IzNBZlFKw4jo@cluster0.fmv6a.mongodb.net/events?retryWrites=true&w=majority')
+
     if (req.method === 'POST') {
-        const {email, name, text} = req.body
+        const {email, name, text, id} = req.body
 
         if (!email.includes('@') || !name || name.trim() === '' || !text || text.trim() === '') {
             res.status(422).json({message: 'Invalid input.'})
@@ -12,13 +15,19 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
         }
 
         const newComment = {
-            id: new Date().toISOString(),
             email,
             name,
-            text
+            text,
+            eventId,
+            id
         }
 
-        console.log(newComment)
+        const db = client.db()
+        const result = await db.collection('comments').insertOne(newComment)
+
+        console.log(result)
+
+        newComment.id = result.insertedId
         res.status(201).json({message: 'Added comment.', comment: newComment})
     }
 
@@ -30,6 +39,8 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
 
         res.status(200).json({comments: dummyList})
     }
+
+    client.close()
 }
 
 export default handler

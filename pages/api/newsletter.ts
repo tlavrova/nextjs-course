@@ -11,10 +11,10 @@ async function handler (req: NextApiRequest, res: NextApiResponse) {
         }
 
         const client =  await MongoClient.connect(
-            'mongodb+srv://tatiana:STe6IzNBZlFKw4jo@cluster0.fmv6a.mongodb.net/?retryWrites=true&w=majority'
+            'mongodb+srv://tatiana:STe6IzNBZlFKw4jo@cluster0.fmv6a.mongodb.net/events?retryWrites=true&w=majority'
         )
-        const db = client.db('newsletter')
-        await db.collection('emails').insertOne({email: userEmail})
+        const db = client.db()
+        await db.collection('newsletter').insertOne({email: userEmail})
         client.close()
 
         res.status(201).json({message: 'Signed up!'})
