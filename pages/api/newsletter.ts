@@ -1,6 +1,7 @@
 import {NextApiRequest, NextApiResponse} from "next";
+import {MongoClient} from "mongodb";
 
-function handler (req: NextApiRequest, res: NextApiResponse) {
+async function handler (req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         const userEmail = req.body.email
 
@@ -9,7 +10,13 @@ function handler (req: NextApiRequest, res: NextApiResponse) {
             return
         }
 
-        console.log(userEmail)
+        const client =  await MongoClient.connect(
+            'mongodb+srv://tatiana:STe6IzNBZlFKw4jo@cluster0.fmv6a.mongodb.net/?retryWrites=true&w=majority'
+        )
+        const db = client.db('newsletter')
+        await db.collection('emails').insertOne({email: userEmail})
+        client.close()
+
         res.status(201).json({message: 'Signed up!'})
     }
 }

@@ -3,11 +3,12 @@ import {useEffect, useState} from 'react';
 import CommentList from './comment-list';
 import NewComment from './new-comment';
 import classes from './comments.module.css';
+import {any} from "prop-types";
 
 function Comments(props: {eventId: string}) {
     const { eventId } = props;
     const [showComments, setShowComments] = useState(false);
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState<any>([])
 
     useEffect(() => {
         if (showComments) {
@@ -34,6 +35,7 @@ function Comments(props: {eventId: string}) {
             .then(data => console.log(data))
     }
 
+    // @ts-ignore
     return (
         <section className={classes.comments}>
             <button onClick={toggleCommentsHandler}>
